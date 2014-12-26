@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grammatika", "Grammatika\Grammatika.csproj", "{F32B4895-14C5-4E77-AD93-CD6DFE1DADD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grammatika.UnitTests", "Grammatika.UnitTests\Grammatika.UnitTests.csproj", "{E43F24E4-35CF-439C-B7E3-8E7A0A97E281}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F32B4895-14C5-4E77-AD93-CD6DFE1DADD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F32B4895-14C5-4E77-AD93-CD6DFE1DADD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F32B4895-14C5-4E77-AD93-CD6DFE1DADD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F32B4895-14C5-4E77-AD93-CD6DFE1DADD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E43F24E4-35CF-439C-B7E3-8E7A0A97E281}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E43F24E4-35CF-439C-B7E3-8E7A0A97E281}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E43F24E4-35CF-439C-B7E3-8E7A0A97E281}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E43F24E4-35CF-439C-B7E3-8E7A0A97E281}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
