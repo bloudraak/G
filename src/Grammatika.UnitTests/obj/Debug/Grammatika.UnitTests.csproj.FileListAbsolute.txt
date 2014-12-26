@@ -1,9 +1,0 @@
-S:\G\src\Grammatika.UnitTests\bin\Debug\Grammatika.UnitTests.dll
-S:\G\src\Grammatika.UnitTests\bin\Debug\Grammatika.UnitTests.pdb
-S:\G\src\Grammatika.UnitTests\bin\Debug\Grammatika.dll
-S:\G\src\Grammatika.UnitTests\bin\Debug\nunit.framework.dll
-S:\G\src\Grammatika.UnitTests\bin\Debug\Grammatika.pdb
-S:\G\src\Grammatika.UnitTests\bin\Debug\nunit.framework.xml
-S:\G\src\Grammatika.UnitTests\obj\Debug\Grammatika.UnitTests.csprojResolveAssemblyReference.cache
-S:\G\src\Grammatika.UnitTests\obj\Debug\Grammatika.UnitTests.dll
-S:\G\src\Grammatika.UnitTests\obj\Debug\Grammatika.UnitTests.pdb
