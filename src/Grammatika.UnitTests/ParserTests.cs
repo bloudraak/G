@@ -65,5 +65,23 @@ namespace Grammatika.UnitTests
             Assert.IsNotNull(actual);
             Assert.AreEqual("Sample", actual.Name);
         }
+
+        [Test]
+        public void Parse_WithSingleProduction()
+        {
+            // Arrange
+            const string source = "language Sample{ syntax LanguageDefinition=\"abc\"; }";
+            var target = new Parser();
+            LanguageDefinition actual = null;
+
+            // Act
+            actual = target.ParseText(source);
+
+            // Assert
+            Assert.IsNotNull(actual);
+            Assert.AreEqual("Sample", actual.Name);
+            Assert.AreEqual(1, actual.Rules.Count);
+            Assert.AreEqual("LanguageDefinition", actual.Rules[0].Name);
+        }
     }
 }

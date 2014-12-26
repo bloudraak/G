@@ -23,6 +23,7 @@
 namespace Grammatika.UnitTests
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using NUnit.Framework;
@@ -31,11 +32,10 @@ namespace Grammatika.UnitTests
     public class ScannerTests
     {
         [Test]
-        public void Scan()
+        public void Scan_WithEmptyLanguage()
         {
             // Arrange
-            var stringReader = new StringReader("language Sample{}");
-            var sourceReader = new SourceReader(stringReader);
+            const string source = "language Sample{}";
             var expectedTokens = new[]
                                  {
                                      new Token(TokenKind.LanguageKeyword,
@@ -51,6 +51,55 @@ namespace Grammatika.UnitTests
                                                new SourceLocation(1, 16),
                                                new SourceLocation(1, 17))
                                  };
+
+            Scan(source, expectedTokens);
+        }
+
+        [Test]
+        public void Scan_WithSingleProduction()
+        {
+            // Arrange
+            const string source = "language Sample{ syntax LanguageDefinition=\"abc\"; }";
+            var expectedTokens = new[]
+                                 {
+                                     new Token(TokenKind.LanguageKeyword,
+                                               new SourceLocation(1, 0),
+                                               new SourceLocation(1, 8)),
+                                     new Token(TokenKind.Identifier,
+                                               new SourceLocation(1, 9),
+                                               new SourceLocation(1, 15)),
+                                     new Token(TokenKind.BeginKeyword,
+                                               new SourceLocation(1, 15),
+                                               new SourceLocation(1, 16)),
+                                     new Token(TokenKind.SyntaxKeyword,
+                                               new SourceLocation(1, 17),
+                                               new SourceLocation(1, 23)),
+                                     new Token(TokenKind.Identifier,
+                                               new SourceLocation(1, 24),
+                                               new SourceLocation(1, 42)),
+                                     new Token(TokenKind.Assignment,
+                                               new SourceLocation(1, 42),
+                                               new SourceLocation(1, 43)),
+                                     new Token(TokenKind.TextLiteral,
+                                               new SourceLocation(1, 43),
+                                               new SourceLocation(1, 48),
+                                               "S"),
+                                     new Token(TokenKind.EndOfStatement,
+                                               new SourceLocation(1, 48),
+                                               new SourceLocation(1, 49)),
+                                     new Token(TokenKind.EndKeyword,
+                                               new SourceLocation(1, 50),
+                                               new SourceLocation(1, 51))
+                                 };
+
+            Scan(source, expectedTokens);
+        }
+
+        private static void Scan(string source, IReadOnlyList<Token> expectedTokens)
+        {
+            // Arrange
+            var stringReader = new StringReader(source);
+            var sourceReader = new SourceReader(stringReader);
             var target = new Scanner(sourceReader);
 
             // Act
@@ -58,15 +107,23 @@ namespace Grammatika.UnitTests
 
             // Assert
             Assert.AreEqual(-1, stringReader.Peek());
-            Assert.AreEqual(expectedTokens.Length, tokens.Length);
+            
 
-            for (int i = 0; i < expectedTokens.Length; i++)
+            var expectedCount = expectedTokens.Count;
+            var actualCount = tokens.Length;
+            var count = expectedCount;
+            if (actualCount < expectedCount)
+            {
+                count = actualCount;
+            }
+            for (int i = 0; i < count; i++)
             {
                 var expected = expectedTokens[i];
                 var actual = tokens[i];
 
-                Assert.AreEqual(expected, actual, "The token at {0} doesn't match", i);
+                Assert.AreEqual(expected, actual, "The token at index {0} doesn't match", i);
             }
+            Assert.AreEqual(expectedTokens.Count, tokens.Length);
         }
     }
 }

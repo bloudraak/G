@@ -26,6 +26,7 @@ namespace Grammatika
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
+    using System.Threading;
 
     public sealed class Scanner
     {
@@ -46,7 +47,7 @@ namespace Grammatika
             {
                 throw new ArgumentNullException("reader");
             }
-            this._reader = reader;
+            _reader = reader;
         }
 
         public IEnumerable<Token> Scan()
@@ -75,29 +76,56 @@ namespace Grammatika
                     {
                         yield return new Token(TokenKind.LanguageKeyword, from, to, text.ToString());
                     }
+                    else if (s == "syntax")
+                    {
+                        yield return new Token(TokenKind.SyntaxKeyword, from, to, text.ToString());
+                    }
                     else
                     {
                         yield return new Token(TokenKind.Identifier, from, to, text.ToString());
                     }
                 }
-                else if (c == '{')
-                {
-                    SourceLocation from = _reader.Location.Clone();
-                    _reader.Read();
-                    SourceLocation to = _reader.Location.Clone();
-                    yield return new Token(TokenKind.BeginKeyword, @from, to);
-                }
-                else if (c == '}')
-                {
-                    SourceLocation from = _reader.Location.Clone();
-                    _reader.Read();
-                    SourceLocation to = _reader.Location.Clone();
-                    yield return new Token(TokenKind.EndKeyword, @from, to);
-                }
                 else
                 {
-                    yield return new Token(TokenKind.Error, _reader.Location);
-                    _reader.Read();
+                    TokenKind kind = TokenKind.Error;
+                    object value = c;
+                    SourceLocation from = _reader.Location.Clone();
+                    switch (c)
+                    {
+                        case '{':
+                            kind = TokenKind.BeginKeyword;
+                            _reader.Read();
+                            break;
+                        case '}':
+                            kind = TokenKind.EndKeyword;
+                            _reader.Read();
+                            break;
+                        case '=':
+                            kind = TokenKind.Assignment;
+                            _reader.Read();
+                            break;
+                        case ';':
+                            kind = TokenKind.EndOfStatement;
+                            _reader.Read();
+                            break;
+                        case '"':
+                            kind = TokenKind.TextLiteral;
+                            _reader.Read();
+                            StringBuilder builder = new StringBuilder(1024);
+                            c = _reader.Read();
+                            while (_reader.Peek() != '"')
+                            {
+                                c = _reader.Read();
+                                builder.Append(c);
+                            }
+                            c = _reader.Read();
+                            break;
+                        default:
+                            _reader.Read();
+                            break;
+                    }
+                    SourceLocation to = _reader.Location.Clone();
+                    yield return new Token(kind, @from, to, value);
                 }
             }
         }

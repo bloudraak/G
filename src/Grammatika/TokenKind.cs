@@ -8,6 +8,10 @@ namespace Grammatika
         LanguageKeyword,
         Identifier,
         BeginKeyword,
-        EndKeyword
+        EndKeyword,
+        SyntaxKeyword,
+        Assignment,
+        TextLiteral,
+        EndOfStatement
     }
 }
